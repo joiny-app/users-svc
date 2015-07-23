@@ -14,3 +14,9 @@
 $app->get('/', function () use ($app) {
     return $app->welcome();
 });
+
+$app->get('user', 'UserController@index');
+$app->get('user/{id}', 'UserController@show');
+$app->post('user', 'UserController@store');
+$app->put('user/{id}', 'UserController@update');
+$app->delete('user/{id}', 'UserController@destroy');
