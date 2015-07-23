@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('surname');
             $table->date('date');
+            $table->string('image_url');
             $table->boolean('notifications');
             $table->string('about_me');
             $table->json('interest');
