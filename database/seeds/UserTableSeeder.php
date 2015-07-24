@@ -20,5 +20,19 @@ class UserTableSeeder extends Seeder
             'about_me' => 'some info',
             'interest' => '{"sport","movie"}'
         ]);
+
+        User::create([
+            'login' => 'Testuser',
+            'password' => '123456',
+            'password_confirm' => '123456',
+            'email' => 'Testuser@Testuser.com',
+            'name' => 'Testuser',
+            'surname' => 'Testuser',
+            'date' => date('2013-11-15'),
+            'image_url' => 'someUrl2',
+            'notifications' => true,
+            'about_me' => 'some other info2',
+            'interest' => '{"sport","movie"}'
+        ]);
     }
 }
