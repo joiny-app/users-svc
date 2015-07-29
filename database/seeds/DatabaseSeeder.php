@@ -1,5 +1,6 @@
 <?php
 
+// use DB\Seeds\UserTableSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 

@@ -15,6 +15,9 @@ $app->get('/', function () use ($app) {
     return $app->welcome();
 });
 
+// TODO: try resources
+// TODO: return different headers on empty response
+
 $app->get('user', 'UserController@index');
 $app->get('user/{id}', 'UserController@show');
 $app->post('user', 'UserController@store');
