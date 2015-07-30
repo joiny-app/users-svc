@@ -15,11 +15,18 @@ $app->get('/', function () use ($app) {
     return $app->welcome();
 });
 
-// TODO: try resources
 // TODO: return different headers on empty response
 
-$app->get('user', 'UserController@index');
-$app->get('user/{id}', 'UserController@show');
-$app->post('user', 'UserController@store');
-$app->put('user/{id}', 'UserController@update');
-$app->delete('user/{id}', 'UserController@destroy');
+$app->group(['prefix' => 'user', 'middleware' => 'jwt.auth'], function ($app) {
+    $app->post('/', 'App\Http\Controllers\UserController@store');
+    $app->put('/{id}', 'App\Http\Controllers\UserController@update');
+    $app->delete('/{id}', 'App\Http\Controllers\UserController@destroy');
+});
+
+$app->group(['prefix' => 'user'], function ($app) {
+
+    $app->get('/', 'App\Http\Controllers\UserController@index');
+    $app->get('/{id}', 'App\Http\Controllers\UserController@show');
+});
+
+$app->post('auth/login', 'App\Http\Controllers\Auth\AuthController@store');

@@ -20,7 +20,7 @@ $app = new Laravel\Lumen\Application(
 );
 
 $app->withFacades();
-
+$app->configure('jwt');
 $app->withEloquent();
 
 /*
@@ -63,9 +63,10 @@ $app->singleton(
 //     // Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
 // ]);
 
-// $app->routeMiddleware([
-
-// ]);
+$app->routeMiddleware([
+	'jwt.auth'    => Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+    'jwt.refresh' => Tymon\JWTAuth\Middleware\RefreshToken::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -96,5 +97,12 @@ $app->register('Tymon\JWTAuth\Providers\JWTAuthServiceProvider');
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__.'/../app/Http/routes.php';
 });
+
+class_alias('Tymon\JWTAuth\Facades\JWTAuth', 'JWTAuth');  
+/** This gives you finer control over the payloads you create if you require it.
+ *  Source: https://github.com/tymondesigns/jwt-auth/wiki/Installation
+ */
+class_alias('Tymon\JWTAuth\Facades\JWTFactory', 'JWTFactory'); // Optional
+
 
 return $app;

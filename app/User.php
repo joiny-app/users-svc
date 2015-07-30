@@ -2,10 +2,22 @@
 
 namespace App;
 
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
- 
-class User extends Model
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
-    
-     protected $fillable = ['login', 'password', 'password_confirm', 'email', 'name', 'surname', 'date', 'image_url', 'notifications', 'about_me', 'interest'];
+    use Authenticatable,
+        CanResetPassword;
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
+
+    protected $fillable = ['login', 'password', 'password_confirm', 'email', 'name', 'surname', 'date', 'image_url', 'notifications', 'about_me', 'interest'];
 }
