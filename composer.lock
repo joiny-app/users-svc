@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "73694d09aff46dc495e45e9185b427d8",
+    "hash": "ee7adba487a07e10ad227638a4941dcf",
     "packages": [
         {
             "name": "basicit/lumen-vendor-publish",

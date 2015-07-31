@@ -9,9 +9,8 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         User::create([
-            'login' => 'test',
-            'password' => 'secret',
-            'password_confirm' => 'secret',
+            'password' => bcrypt('secret'),
+            'password_confirmed' => 1,
             'email' => 'test@test.test',
             'name' => 'Test',
             'surname' => 'Tester',
@@ -19,13 +18,12 @@ class UserTableSeeder extends Seeder
             'image_url' => 'someUrl',
             'notifications' => true,
             'about_me' => 'some info',
-            'interest' => '{"sport","movie"}'
+            'interests' => '{"sport","movie"}'
         ]);
 
         User::create([
-            'login' => 'Testuser',
-            'password' => '123456',
-            'password_confirm' => '123456',
+            'password' => bcrypt(123456),
+            'password_confirmed' => 0,
             'email' => 'Testuser@Testuser.com',
             'name' => 'Testuser',
             'surname' => 'Testuser',
@@ -33,7 +31,7 @@ class UserTableSeeder extends Seeder
             'image_url' => 'someUrl2',
             'notifications' => true,
             'about_me' => 'some other info2',
-            'interest' => '{"sport","movie"}'
+            'interests' => '{"sport","movie"}'
         ]);
     }
 }
