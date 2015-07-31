@@ -37,11 +37,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'login' => 'required|unique:users|max:128|regex:/[a-z]+[a-z0-9_-]*/',
-            'email' => 'required|unique:users|max:128|regex:/[a-z]+[a-z0-9_-]+@([a-z]+\.)+[a-z]{2,4}/',
-            'password' => 'required',
-        ]);
         $user = new User;
         $password = Hash::make($request->input('password'));
         $user->login = $request->input('login');
@@ -79,6 +74,11 @@ class UserController extends Controller
         $confirm->save();
         error_log(json_encode($message));
         return $user;
+
+        
+        // $user = User::create($request->all());
+
+        // return response()->json($user);
     }
 
     /**
@@ -89,7 +89,12 @@ class UserController extends Controller
      */
     public function update($id)
     {
-        //
+        $user  = user::find($id);
+        $user->name = $request->input('name');
+        $user->surname = $request->input('surname');
+        $user->save();
+ 
+        return response()->json($user);
     }
 
     /**
@@ -100,6 +105,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+        return response()->json('success');
     }
 }
