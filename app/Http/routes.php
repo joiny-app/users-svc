@@ -17,8 +17,7 @@ $app->get('/', function () use ($app) {
 
 // TODO: return different headers on empty response
 
-// $app->group(['prefix' => 'user', 'middleware' => 'jwt.auth'], function($app) {
-$app->group(['prefix' => 'user'], function($app) {
+$app->group(['prefix' => 'user', 'middleware' => 'jwt.auth'], function($app) {
     $app->post('/', 'App\Http\Controllers\UserController@store');
     $app->put('/{id}', 'App\Http\Controllers\UserController@update');
     $app->delete('/{id}', 'App\Http\Controllers\UserController@destroy');
