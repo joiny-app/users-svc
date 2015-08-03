@@ -15,18 +15,19 @@ $app->get('/', function () use ($app) {
     return $app->welcome();
 });
 
-// TODO: return different headers on empty response
+// $app->group(['prefix' => 'user', 'middleware' => 'jwt.auth'], function($app) {
+//     $app->post('/', 'App\Http\Controllers\UserController@store');
+//     $app->put('/{id}', 'App\Http\Controllers\UserController@update');
+//     $app->delete('/{id}', 'App\Http\Controllers\UserController@destroy');
+// });
 
-$app->group(['prefix' => 'user', 'middleware' => 'jwt.auth'], function($app) {
+$app->group(['prefix' => 'user', 'middleware' => 'generateToken'], function ($app)
+{
+    $app->get('/', 'App\Http\Controllers\UserController@index');
+    $app->get('/{id}', 'App\Http\Controllers\UserController@show');
     $app->post('/', 'App\Http\Controllers\UserController@store');
     $app->put('/{id}', 'App\Http\Controllers\UserController@update');
     $app->delete('/{id}', 'App\Http\Controllers\UserController@destroy');
 });
 
-$app->group(['prefix' => 'user'], function ($app)
-{
-    $app->get('/', 'App\Http\Controllers\UserController@index');
-    $app->get('/{id}', 'App\Http\Controllers\UserController@show');
-});
-
-$app->post('auth/login', 'App\Http\Controllers\Auth\AuthController@check');
+$app->post('auth/login', 'App\Http\Controllers\Auth\AuthController@login');

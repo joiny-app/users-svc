@@ -18,7 +18,7 @@ class AuthController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function check(Request $request)
+    public function login(Request $request)
     {
         try {
             $this->validate($request, [
@@ -39,16 +39,13 @@ class AuthController extends Controller
 
         $credentials = $this->getCredentials($request);
         try {
-            // attempt to verify the credentials and create a token for the user
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'Invalid credentials'], 401);
             }
         } catch (JWTException $e) {
-        // something went wrong whilst attempting to encode the token
             return response()->json(['error' => 'Could not creade token'], 500);
         }
 
-        // all good so return the token
         return response()->json(compact('token'));
     }
 

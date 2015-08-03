@@ -66,6 +66,7 @@ $app->singleton(
 $app->routeMiddleware([
 	'jwt.auth'    => Tymon\JWTAuth\Middleware\GetUserFromToken::class,
     'jwt.refresh' => Tymon\JWTAuth\Middleware\RefreshToken::class,
+    'generateToken' => 'App\Http\Middleware\GetAuthenticatedUserMiddleware',
 ]);
 
 /*
