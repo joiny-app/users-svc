@@ -56,13 +56,13 @@ class UserController extends Controller
         $user->password = bcrypt($request->input('password'));
         $credentials = $request->only('email', 'password');
 
-        try {
-            if (!$token = JWTAuth::fromUser($user)) {
-                return response()->json(['error' => 'Invalid credentials'], 401);
-            }
-        } catch (JWTException $e) {
-            return response()->json(['error' => 'Could not create token'], 500);
-        }
+        // try {
+        //     if (!$token = JWTAuth::fromUser($user)) {
+        //         return response()->json(['error' => 'Invalid credentials'], 401);
+        //     }
+        // } catch (JWTException $e) {
+        //     return response()->json(['error' => 'Could not create token'], 500);
+        // }
 
         $user->save();
 
@@ -85,7 +85,6 @@ class UserController extends Controller
         } else {
             return response()->json(['error' => 'Invalid data'], 400);
         }
- 
     }
 
     /**
@@ -96,7 +95,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        if(!$user = User::find($id)) {
+        if (!$user = User::find($id)) {
             return response()->json(['error' => 'No such user'], 400);
         }
         $user->delete();

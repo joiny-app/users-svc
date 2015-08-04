@@ -27,12 +27,12 @@ class AuthController extends Controller
             ]);
         } catch (HttpResponseException $e) {
             return response()->json(
-            [
+                [
                 'error' => [
                     'message'     => 'Invalid auth',
                     'status_code' => IlluminateResponse::HTTP_BAD_REQUEST
                 ]
-            ],
+                ],
                 IlluminateResponse::HTTP_BAD_REQUEST,
                 $headers = []
             );
