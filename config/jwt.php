@@ -12,7 +12,7 @@ return [
     |
     */
 
-    // 'secret' => env('JWT_SECRET', ''),
+    'secret' => env('JWT_SECRET', 'IjKBFM7UdMcwVfjUG0GZ1kNTcuPDfLGn'),
 
     /*
     |--------------------------------------------------------------------------
@@ -76,7 +76,7 @@ return [
     |
     */
 
-    'identifier' => 'id',
+    'identifier' => 'email',
 
     /*
     |--------------------------------------------------------------------------

@@ -21,14 +21,14 @@ class GetAuthenticatedUserMiddleware
     {
         try {
             if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['User not found'], 404);
+                return response()->json(['msg' => 'User not found'], 404);
             }
         } catch (TokenExpiredException $e) {
-            return response()->json(['Expired token'], $e->getStatusCode());
+            return response()->json(['error' => 'Expired token'], $e->getStatusCode());
         } catch (TokenInvalidException $e) {
-            return response()->json(['Invalid token'], $e->getStatusCode());
+            return response()->json(['error' => 'Invalid token'], $e->getStatusCode());
         } catch (JWTException $e) {
-            return response()->json(['Token is absent'], $e->getStatusCode());
+            return response()->json(['error' => 'Token is absent'], $e->getStatusCode());
         }
         return $next($request);
     }

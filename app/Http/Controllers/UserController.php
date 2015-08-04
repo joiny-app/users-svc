@@ -31,6 +31,17 @@ class UserController extends Controller
         $user = User::find($id);
         return response()->json($user);
     }
+    
+    /**
+     * Display the current user.
+     *
+     * @return Response
+     */
+    public function profile()
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+        return response()->json($user);
+    }
 
     /**
      * Store a newly created resource in storage.

@@ -15,15 +15,12 @@ $app->get('/', function () use ($app) {
     return $app->welcome();
 });
 
-// $app->group(['prefix' => 'user', 'middleware' => 'jwt.auth'], function($app) {
-//     $app->post('/', 'App\Http\Controllers\UserController@store');
-//     $app->put('/{id}', 'App\Http\Controllers\UserController@update');
-//     $app->delete('/{id}', 'App\Http\Controllers\UserController@destroy');
-// });
-
-$app->group(['prefix' => 'user', 'middleware' => 'generateToken'], function ($app)
-{
+$app->group(['prefix' => 'user'], function($app) {
     $app->get('/', 'App\Http\Controllers\UserController@index');
+});
+
+$app->group(['prefix' => 'user', 'middleware' => 'getUserFromToken'], function ($app)
+{
     $app->get('/{id}', 'App\Http\Controllers\UserController@show');
     $app->post('/', 'App\Http\Controllers\UserController@store');
     $app->put('/{id}', 'App\Http\Controllers\UserController@update');
@@ -31,3 +28,4 @@ $app->group(['prefix' => 'user', 'middleware' => 'generateToken'], function ($ap
 });
 
 $app->post('auth/login', 'App\Http\Controllers\Auth\AuthController@login');
+$app->get('profile', 'App\Http\Controllers\UserController@profile');
