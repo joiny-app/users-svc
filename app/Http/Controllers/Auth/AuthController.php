@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
 use Illuminate\Http\Exception\HttpResponseException;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -18,7 +19,7 @@ class AuthController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function check(Request $request)
+    public function login(Request $request)
     {
         try {
             $this->validate($request, [
@@ -26,29 +27,27 @@ class AuthController extends Controller
             ]);
         } catch (HttpResponseException $e) {
             return response()->json(
-            [
+                [
                 'error' => [
                     'message'     => 'Invalid auth',
                     'status_code' => IlluminateResponse::HTTP_BAD_REQUEST
                 ]
-            ],
+                ],
                 IlluminateResponse::HTTP_BAD_REQUEST,
                 $headers = []
             );
         }
 
-        $credentials = $this->getCredentials($request);
+        $user = User::where('email', $request['email'])->first();
+        // $customFields = ['role' => $user->role]; // $token = JWTAuth::fromUser($user, $customFields)
+
         try {
-            // attempt to verify the credentials and create a token for the user
-            if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
+            if (!$token = JWTAuth::fromUser($user)) {
+                return response()->json(['error' => 'Invalid credentials'], 401);
             }
         } catch (JWTException $e) {
-        // something went wrong whilst attempting to encode the token
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            return response()->json(['error' => 'Could not creade token'], 500);
         }
-
-        // all good so return the token
         return response()->json(compact('token'));
     }
 
