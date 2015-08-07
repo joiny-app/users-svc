@@ -1,0 +1,37 @@
+language: php
+
+sudo: false
+
+php:
+  - 5.6
+
+git:
+  submodules: false
+  depth: 10
+
+env:
+
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer install --optimize-autoloader --prefer-source --no-interaction --dev
+
+after_success:
+  - export REPO_NAME=`basename $TRAVIS_REPO_SLUG`
+  - rsync -a --exclude .git . /tmp/build-$TRAVIS_BUILD_NUMBER
+  - mkdir -p /tmp/build-tar/
+  - cd /tmp/build-$TRAVIS_BUILD_NUMBER/
+  - tar -zcvf /tmp/build-tar/$REPO_NAME-$TRAVIS_BUILD_NUMBER.tar.gz .
+  - cd -
+  - ls -la /tmp/build-$TRAVIS_BUILD_NUMBER/
+  - ls -la /tmp/build-tar/
+
+deploy:
+  provider: s3
+  local-dir: /tmp/build-tar
+  upload-dir: builds/$REPO_NAME
+  acl: authenticated_read
+  on:
+    branch: dev
+
+after_deploy:
+    - php build/deploy.php
