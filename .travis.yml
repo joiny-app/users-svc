@@ -35,3 +35,6 @@ deploy:
 
 after_deploy:
     - php build/deploy.php
+
+notifications:
+  email: false
