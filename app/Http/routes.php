@@ -16,7 +16,6 @@ $app->get('/', function () use ($app) {
 });
 
 $app->group(['prefix' => 'user', 'middleware' => 'getUserFromToken'], function ($app) {
-
     $app->get('/', 'App\Http\Controllers\UserController@index');
     $app->post('/', 'App\Http\Controllers\UserController@store');
     $app->get('/{id}', 'App\Http\Controllers\UserController@show');

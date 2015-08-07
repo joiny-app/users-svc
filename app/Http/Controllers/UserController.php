@@ -52,21 +52,25 @@ class UserController extends Controller
     {
         $user = new User;
         $user->email = $request->input('email');
-        $user->confirmed = false;
         $user->password = bcrypt($request->input('password'));
-        $credentials = $request->only('email', 'password');
+        $user->name = $request->input('name');
+        $user->surname = $request->input('surname');
+        $user->birth_date = $request->input('birth_date');
+        $user->about_me = $request->input('about_me');
+        $user->interests = $request->input('interests');
+        $user->confirmed = false;
 
-        // try {
-        //     if (!$token = JWTAuth::fromUser($user)) {
-        //         return response()->json(['error' => 'Invalid credentials'], 401);
-        //     }
-        // } catch (JWTException $e) {
-        //     return response()->json(['error' => 'Could not create token'], 500);
-        // }
+        try {
+            if (!$token = JWTAuth::fromUser($user)) {
+                return response()->json(['error' => 'Couldnt create token'], 401);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'Could not create token'], 500);
+        }
 
         $user->save();
 
-        return response()->json($user);
+        return response()->json($user)->header('Authorization', 'Bearer: ' . $token);
     }
 
     /**
